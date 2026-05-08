@@ -15,7 +15,7 @@ const popups = document.querySelectorAll('.popup');
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
-
+/*ред.профиля*/
 const editForm = document.forms['edit-profile'];
 const nameInput = editForm.querySelector('.popup__input_type_name');
 const jobInput = editForm.querySelector('.popup__input_type_description');
@@ -24,9 +24,10 @@ const newCardForm = document.forms['new-place'];
 const placeNameInput = newCardForm.querySelector('.popup__input_type_card-name');
 const linkInput = newCardForm.querySelector('.popup__input_type_url');
 
-const popupImageElement = popupImage.querySelector('.popup__image');
+const popupImageElement = popupImage. querySelector('.popup__image');
 const popupCaption = popupImage.querySelector('.popup__caption');
 
+/*закрытие на Esc*/
 const openModal = (modal) => {
   modal.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleEscClose);
@@ -36,9 +37,9 @@ const closeModal = (modal) => {
   modal.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', handleEscClose);
 };
-
-const handleEscClose = (evt) => {
-  if (evt.key !== 'Escape') return;
+/**/
+const handleEscClose = (e) => {
+  if (e.key !== 'Escape') return;
 
   const openedPopup = document.querySelector('.popup_is-opened');
   if (openedPopup) {
@@ -46,19 +47,20 @@ const handleEscClose = (evt) => {
   }
 };
 
-const handleOverlayClick = (evt) => {
-  if (evt.target.classList.contains('popup_is-opened')) {
-    closeModal(evt.target);
+/*закрытие на фон*/
+const handleOverlayClick = (e) => {
+  if (e.target.classList.contains('popup_is-opened')) {
+    closeModal(e.target);
   }
 };
-
-const handleDelete = (evt) => {
-  const card = evt.currentTarget.closest('.card');
+/*точечное удаление*/
+const handleDelete = (e) => {
+  const card = e.currentTarget.closest('.card');
   if (card) card.remove();
 };
-
-const handleLike = (evt) => {
-  evt.currentTarget.classList.toggle('card__like-button_is-active');
+/*переключение состояния лукаса*/
+const handleLike = (e) => {
+  e.currentTarget.classList.toggle('card__like-button_is-active');
 };
 
 const handleImageClick = (cardData) => {
@@ -68,6 +70,7 @@ const handleImageClick = (cardData) => {
   openModal(popupImage);
 };
 
+/*создание карточки и работа с ней*/
 const createCard = (cardData, deleteHandler, likeHandler, imageHandler) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardTitle = cardElement.querySelector('.card__title');
@@ -85,23 +88,25 @@ const createCard = (cardData, deleteHandler, likeHandler, imageHandler) => {
 
   return cardElement;
 };
-
+/*проверка на картинку, а не ссылку*/
 const isImageUrl = (url) => /\.(jpg|jpeg|png|webp|gif|avif|svg)(\?.*)?$/i.test(url);
 
+/*создание карточки в список*/
 const renderCard = (cardData, method = 'append') => {
   const cardElement = createCard(cardData, handleDelete, handleLike, handleImageClick);
   placesList[method](cardElement);
 };
 
-const handleProfileFormSubmit = (evt) => {
-  evt.preventDefault();
+/*редактор профиля*/
+const handleProfileFormSubmit = (e) => {
+  e.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
   closeModal(popupEdit);
 };
 
-const handleNewCardFormSubmit = (evt) => {
-  evt.preventDefault();
+const handleNewCardFormSubmit = (e) => {
+  e.preventDefault();
 
   const name = placeNameInput.value.trim();
   const link = linkInput.value.trim();
